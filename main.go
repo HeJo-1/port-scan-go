@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
+	"os/exec"
 	"time"
 )
 
@@ -28,15 +29,54 @@ func getPortType(port int) string {
 	}
 }
 
+// Uygulama build etme fonksiyonu
+func buildApplication() {
+	cmd := exec.Command("go", "build", "-o", "portscanner")
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("Build işlemi başarısız:", err)
+	} else {
+		fmt.Println("Build başarılı! Çalıştırmaya hazır.")
+	}
+}
+
+// Uygulamayı çalıştırma fonksiyonu
+func runApplication() {
+	cmd := exec.Command("./portscanner") // Çalıştırılacak dosyanın adı
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("Çalıştırma işlemi başarısız:", err)
+	} else {
+		fmt.Println("Port tarayıcı çalıştırıldı!")
+	}
+}
+
 func main() {
 	var ip string
 	var startPort, endPort int
 	var bekle int
 
-	// Kullanıcıdan hedef IP ve port aralığı alınır
+	// Kullanıcıya build etme veya çalıştırma seçenekleri sunulur
 	fmt.Println("===================================")
 	fmt.Println("       Port Tarayıcı Uygulaması     ")
 	fmt.Println("===================================")
+	fmt.Println("1. Build Et")
+	fmt.Println("2. Çalıştır")
+	fmt.Print("Seçiminizi yapın (1 veya 2): ")
+	var secim int
+	fmt.Scan(&secim)
+
+	switch secim {
+	case 1:
+		buildApplication() // Build etme işlemi
+	case 2:
+		runApplication() // Uygulamayı çalıştırma
+	default:
+		fmt.Println("Geçersiz seçim!")
+		return
+	}
+
+	// Kullanıcıdan hedef IP ve port aralığı alınır
 	fmt.Print("\nHedef IP adresini girin: ")
 	fmt.Scan(&ip)
 	fmt.Print("Başlangıç portunu girin: ")
