@@ -31,7 +31,7 @@ func getPortType(port int) string {
 
 // Uygulama build etme fonksiyonu
 func buildApplication() {
-	cmd := exec.Command("go", "build", "-o", "portscanner")
+	cmd := exec.Command("go", "build")
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println("Build işlemi başarısız:", err)
@@ -42,7 +42,7 @@ func buildApplication() {
 
 // Uygulamayı çalıştırma fonksiyonu
 func runApplication() {
-	cmd := exec.Command("./portscanner") // Çalıştırılacak dosyanın adı
+	cmd := exec.Command("./portscanner.exe") // Çalıştırılacak dosyanın adı
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println("Çalıştırma işlemi başarısız:", err)
